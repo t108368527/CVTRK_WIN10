@@ -2,7 +2,9 @@ import cv2
 import os
 import time
 import sys
+import read_vott_id_json as RVIJ
 
+ROI_get_bbox = False
 
 def get_algorithm_tracker(algorithm):
     if algorithm == 'BOOSTING':
@@ -51,15 +53,30 @@ def ROI_select(roi_window_name, frame):
     cv2.destroyWindow(roi_window_name)
     return bbox
 
-def main(video_path, algorithm):
-    tracker = get_algorithm_tracker(algorithm)
-
+def main(file_path, video_path, algorithm):
+    
     video_cap = cv2.VideoCapture(video_path)
     if not video_cap.isOpened():
         print("open video failed.")
         sys.exit()
+    bbox = ()
+    get_timestamp = 0
+    if ROI_get_bbox == False:
+        rvij = RVIJ.read_vott_id_json(file_path)
+        if rvij.read_from_id_json_data():
+            print('read json file failed')
+            sys.exit()
 
-    video_cap = video_settings(video_cap, 50000)
+        get_bbox = rvij.get_boundingBox()
+        bbox = (get_bbox[0], get_bbox[1], get_bbox[2],  get_bbox[3])
+        get_timestamp = rvij.get_timestamp()
+    else:
+        roi_window_name = 'ROI select'
+        bbox = ROI_select(roi_window_name, frame)
+
+    tracker = get_algorithm_tracker(algorithm)
+
+    video_cap = video_settings(video_cap, get_timestamp * 1000)
 
     ok,frame = video_cap.read()
     if not ok:
@@ -74,8 +91,6 @@ def main(video_path, algorithm):
     window_name = "frame"
     show_window_settings(window_name, 1280, 720)
 
-    roi_window_name = 'ROI select'
-    bbox = ROI_select(roi_window_name, frame)
     tracker.init(frame, bbox)
 
     fps = 0.066667  #1sec(15frame) 1/15
@@ -96,10 +111,12 @@ def main(video_path, algorithm):
                 sys.exit()
 
             ok, bbox = tracker.update(frame)
+            print(bbox[0])
             if ok:                    
                 p1 = (int(bbox[0]), int(bbox[1]))
                 p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
                 cv2.rectangle(frame, p1, p2, (255, 0, 0), 2, 1)
+                print("p1: %.d",p1)
             else:                     
                 cv2.putText(frame, "Tracking failure detected", (100, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
 
@@ -114,6 +131,7 @@ def main(video_path, algorithm):
 
 
 if __name__ == '__main__':
-    video_path = '../../Drone_Project/Drone_Source/001/Drone_001.mp4'
+    video_path = '../../Drone_Project/Drone_Target/001/3dde1a6f488582de7f4c50493a348e43-asset.json'
+    file_path = '../../Drone_Project/Drone_Source/001/Drone_001.mp4'
     algorithm = 'CSRT'
-    main(video_path, algorithm)
+    main(video_path, file_path, algorithm)
