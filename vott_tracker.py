@@ -244,19 +244,54 @@ def main(target_path, file_path, video_path, algorithm):
         if time_count == 14:
             break
 
+def read_file_name_path(target_path):
+    #file ex:
+    # file:/home/ivan/HD1/hd/VoTT/Drone_Project/Drone_Source/001/Drone_001.mp4#t=305.533333,76a8e999e2d9232d8e26253551acb4b3-asset.json
+
+    f = open(target_path  , "r") 
+    # remove file:
+    path = f.read()
+    path = path[5:]
+    vc = 0
+    
+    # get source video path
+    vc = path.find('#');
+    video_path = path[:vc]
+    print(video_path)
+
+    # get json file(this file will be crated when user used vott to label object)
+    vc = path.find(',');
+    file_name = path[vc+1:]
+    print(file_name)
+    
+    # replace Dorne_Source to Drone_Target because from video path,
+    # because we need to get the json file at Drone_Target/target_name folder
+    # please note if users target_name(ex:001) folder is not equal to source_name(ex:001) 
+    # below target_path will be wrong!!!
+    target_path = video_path.replace("Drone_Source", "Drone_Target")
+    l1 = target_path.find("Drone_Target")
+    l2 = l1 + len("Drone_Target/")
+    temp_path = target_path[l2:]
+    l3 = temp_path.find('/')
+    last_dir_path = temp_path[:l3] 
+    target_path = target_path[:l2] + last_dir_path + '/'
+    print(target_path)
+    json_file_path = target_path + file_name
+    print(json_file_path)
+    return video_path, target_path, json_file_path
+
+
 
 if __name__ == '__main__':
-    #file_path = '../../Drone_Project/Drone_Target/001/3dde1a6f488582de7f4c50493a348e43-asset.json'
     
-    target_path = '../../Drone_Project/Drone_Target/001/'
-    file_path = target_path
-    if len(sys.argv[1]) > 1:
-        file_path = file_path + sys.argv[1]
-        print("file_path: %s" % file_path)
+    target_path = '../../Drone_Project/Drone_Target/for_python_path.log'
+    video_path, target_path, json_file_path = read_file_name_path(target_path)
+    #if len(sys.argv[1]) > 1:
+        #file_path = file_path + sys.argv[1]
+        #print("file_path: %s" % file_path)
     #if len(sys.argv[2]) > 1:
         #algorithm = sys.argv[2]
         #print(algorithm)
 
-    video_path = '../../Drone_Project/Drone_Source/001/Drone_001.mp4'
     algorithm = 'CSRT'
-    main(target_path, file_path, video_path, algorithm)
+    main(target_path, json_file_path, video_path, algorithm)
