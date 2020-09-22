@@ -72,7 +72,7 @@ class read_vott_id_json():
                 self.boundingBox[3] = jf['regions'][0]['boundingBox']["top"]
                 print("read form json ok")
                 self.__print_read_parameter_from_json()
-                
+                reader.close() 
             return False
         except:
             print(' wrong format: '+ self.file_path)

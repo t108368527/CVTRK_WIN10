@@ -151,7 +151,7 @@ def deal_with_BX_PT(wvij, bbox):
     PT.append(BX[0]+BX[3])
     wvij.save_points(PT)
 
-def main(target_path, file_path, video_path, algorithm):
+def main(target_path, json_file_path, video_path, algorithm):
     time_interval_15fps = [0, 0.066667, 0.133333, 0.2, 0.266667, 0.333333,
                        0.4, 0.466667, 0.533333, 0.6, 0.666667, 0.733333,
                        0.8, 0.866667, 0.933333]
@@ -168,7 +168,7 @@ def main(target_path, file_path, video_path, algorithm):
     bbox = ()
     get_timestamp = 0
     if ROI_get_bbox == False:
-        rvij = RVIJ.read_vott_id_json(file_path)
+        rvij = RVIJ.read_vott_id_json(json_file_path)
         if rvij.read_from_id_json_data():
             print('read json file failed')
             sys.exit()
@@ -238,7 +238,7 @@ def main(target_path, file_path, video_path, algorithm):
             deal_with_name_format_path(rvij, wvij, time_interval_15fps, format_15fps, time_count)
             deal_with_BX_PT(wvij, bbox) 
             print("time_count %d" % time_count)
-            wvij.create_id_json_data()
+            wvij.create_id_json_file(json_file_path)
         cv2.imshow('frame', frame)
         cv2.waitKey(1)
         if time_count == 14:

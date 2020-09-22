@@ -50,83 +50,49 @@ class write_vott_id_json():
             print('target path is not existed!!')
         self.__clear_all_parameter_value()
     
-    def create_id_json_data(self):
+    def create_id_json_file(self, json_file_path):
         try:
-            #data = {"asset":{'id':'ddd', 'format':'ddd', 'state':2, 'type':3, 'name':'gg', 'path':'tt'}}
-            #output = json.dumps(data, separators=(',\n', ': '))
-            #print(output)
-            #with open('abc.json', 'w', encoding='utf-8') as f:
             self.__create_shorid_for_regions_id()
+            new_json_file_path = self.target_path + self.asset_id + '-asset.json'
+            print(new_json_file_path)
+            shutil.copyfile(json_file_path, new_json_file_path); 
+            with open( new_json_file_path, 'r+') as f:
+                data = json.load(f)
+                data['asset']['id'] = self.asset_id
+                data['asset']['format'] = self.asset_format 
+                data['asset']['name'] = self.asset_name
+                data['asset']['path'] = self.asset_path
+ 
+                #data['asset']['parent']['id'] = self.parent_id
+                #data['asset']['parent']['name'] = self.parent_name
+                #data['asset']['parent']['path'] = self.parent_path
+ 
+                data['asset']['timestamp'] = self.timestamp
+                data['regions'][0]['id'] = self.regions_id
+                data['regions'][0]['tags'][0] = self.tags
+                data['regions'][0]['boundingBox']["height"] = self.boundingBox[0]
+                data['regions'][0]['boundingBox']["width"] = self.boundingBox[1]
+                data['regions'][0]['boundingBox']["left"] = self.boundingBox[2]
+                data['regions'][0]['boundingBox']["top"] = self.boundingBox[3]
 
-            with open( self.target_path + self.asset_id + '-asset.json', 'w') as f:
-                #json.dump(data, f)
-                f.write('{\n')
-                f.write('    \"asset\": {\n')
-                f.write('        \"id\": ' +  '\"'+ self.asset_id + '\",\n')
-                f.write('        \"format\": ' +  '\"'+ self.asset_format + '\",\n')
-                f.write('        \"state\": 2,\n')
-                f.write('        \"type\": 3,\n')
-                f.write('        \"name\": ' +  '\"'+ self.asset_name+ '\",\n')
-                f.write('        \"path\": ' +  '\"'+ self.asset_path+ '\",\n')
-                f.write('        \"size\": {\n')
-                f.write('            \"width\": 3840,\n')
-                f.write('            \"height\": 2160\n')
-                f.write('        },\n')
-                f.write('        \"parent\": {\n')
-                f.write('            \"format\": \"mp4\",\n')
-                f.write('            \"id\": ' + '\"' + self.parent_id + '\",\n')
-                f.write('            \"name\": ' + '\"' + self.parent_name + '\",\n')
-                f.write('            \"path\": ' + '\"' + self.parent_path + '\",\n')
-                f.write('            \"size\": {\n')
-                f.write('                \"width\": 3840,\n')
-                f.write('                \"height\": 2160\n')
-                f.write('            },\n')
-                f.write('            \"state\": 2,\n')
-                f.write('            \"type\": 2\n')
-                f.write('        },\n')
-                f.write('        \"timestamp\": ' + str(self.timestamp) +'\n')
-                f.write('    },\n')
-                f.write('    \"regions\": [\n')
-                f.write('        {\n')
-                f.write('            \"id\": ' + '\"'+ self.regions_id +'\"'+',\n')
-                f.write('            \"type\": \"RECTANGLE\",\n')
-                f.write('            \"tags\": [\n')
-                f.write('                \"' + self.tags + '\"\n')
-                f.write('            ],\n')
-                f.write('            \"boundingBox\": {\n')
-                f.write('                \"height\": ' + str(self.boundingBox[0]) + ',\n')
-                f.write('                \"width\": ' + str(self.boundingBox[1]) + ',\n')
-                f.write('                \"left\": ' + str(self.boundingBox[2]) + ',\n')
-                f.write('                \"top\": ' + str(self.boundingBox[3]) + '\n')
-                f.write('            },\n')
-                f.write('            \"points\": [\n')
-                f.write('                {\n')
-                f.write('                    \"x\": ' + str(self.boundingBox[2]) + ',\n')
-                f.write('                    \"y\": ' + str(self.boundingBox[3]) + '\n')
-                f.write('                },\n')
+                data['regions'][0]['points'][0]["x"] = self.boundingBox[2]
+                data['regions'][0]['points'][0]["y"] = self.boundingBox[3]
+                
+                data['regions'][0]['points'][1]["x"] = self.points[0]
+                data['regions'][0]['points'][1]["y"] = self.boundingBox[3]
+                
+                data['regions'][0]['points'][2]["x"] = self.points[0]
+                data['regions'][0]['points'][2]["y"] = self.points[1]
+                
+                data['regions'][0]['points'][3]["x"] = self.boundingBox[2]
+                data['regions'][0]['points'][3]["y"] = self.points[1]
 
-                f.write('                {\n')
-                f.write('                    \"x\": ' + str(self.points[0]) + ',\n')
-                f.write('                    \"y\": ' + str(self.boundingBox[3]) + '\n')
-                f.write('                },\n')
+                f.close()
+            os.remove(new_json_file_path)
 
-                f.write('                {\n')
-                f.write('                    \"x\": ' + str(self.points[0]) + ',\n')
-                f.write('                    \"y\": ' + str(self.points[1]) + '\n')
-                f.write('                },\n')
-
-                f.write('                {\n')
-                f.write('                    \"x\": ' + str(self.boundingBox[2]) + ',\n')
-                f.write('                    \"y\": ' + str(self.points[1]) + '\n')
-                f.write('                }\n')
-
-
-                f.write('            ]\n')
-                f.write('        }\n')
-                f.write('    ],\n')
-                f.write('    \"version\": \"2.2.0\"\n')
-                f.write('}')
-
+            with open( new_json_file_path, 'w') as f:
+                json.dump(data, f, indent = 4)
+                f.close()
 
             return False
         except:
