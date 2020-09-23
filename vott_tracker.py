@@ -4,6 +4,7 @@ import time
 import sys
 import read_vott_id_json as RVIJ
 import write_vott_id_json as WVIJ
+from threading import Timer
 
 ROI_get_bbox = False
 
@@ -151,6 +152,16 @@ def deal_with_BX_PT(wvij, bbox):
     PT.append(BX[0]+BX[3])
     wvij.save_points(PT)
 
+def timer_isr():
+    global arrived_next_frame 
+    arrived_next_frame = True
+
+class RepeatingTimer(Timer): 
+    def run(self):
+        while not self.finished.is_set():
+            self.function(*self.args, **self.kwargs)
+            self.finished.wait(self.interval)
+
 def main(target_path, json_file_path, video_path, algorithm):
     time_interval_15fps = [0, 0.066667, 0.133333, 0.2, 0.266667, 0.333333,
                        0.4, 0.466667, 0.533333, 0.6, 0.666667, 0.733333,
@@ -199,9 +210,6 @@ def main(target_path, json_file_path, video_path, algorithm):
 
     tracker.init(frame, bbox)
 
-    fps = 0.066667  #1sec(15frame) 1/15
-    print("fps %.5f" % fps)
-    startTime = time.time()
     time_count = check_which_frame(rvij.get_asset_format())
     print("time_count: %d" % time_count)
 
@@ -209,39 +217,40 @@ def main(target_path, json_file_path, video_path, algorithm):
     fill_previous_data_to_write_json(rvij, wvij)
 
     
+    frame_interval = 0.066667  #1sec(15frame) interval = 1/15
+    timer = RepeatingTimer(frame_interval, timer_isr)
+    timer.start()
 
+    global arrived_next_frame
     while True:
-        #ok,frame = cap.read()
     #   try:
     #        frame = cv2.resize(frame, (1280, 720))
     #    except:
     #        print("frame resize failed")
-        nowTime = time.time()
-        if float(nowTime - startTime) > fps:
-            ok,frame = video_cap.read()
+        ok,frame = video_cap.read()
+        if arrived_next_frame:
             if not ok:
                 print("open video failed.")
                 sys.exit()
 
             ok, bbox = tracker.update(frame)
-            #print(bbox[0])
             if ok:                    
                 p1 = (int(bbox[0]), int(bbox[1]))
                 p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
                 cv2.rectangle(frame, p1, p2, (255, 0, 0), 2, 1)
-                #print("p1: %.d",p1)
             else:                     
                 cv2.putText(frame, "Tracking failure detected", (100, 80), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 0, 255), 2)
 
-            startTime = time.time()
             time_count = time_count + 1
             deal_with_name_format_path(rvij, wvij, time_interval_15fps, format_15fps, time_count)
             deal_with_BX_PT(wvij, bbox) 
             print("time_count %d" % time_count)
             wvij.create_id_json_file(json_file_path)
+            arrived_next_frame = False 
         cv2.imshow('frame', frame)
         cv2.waitKey(1)
         if time_count == 14:
+            timer.cancel()
             break
 
 def read_file_name_path(target_path):
@@ -293,5 +302,6 @@ if __name__ == '__main__':
         #algorithm = sys.argv[2]
         #print(algorithm)
 
+    arrived_next_frame = False 
     algorithm = 'CSRT'
     main(target_path, json_file_path, video_path, algorithm)
