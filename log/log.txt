@@ -1,0 +1,28 @@
+2020-09-26 23:12:57.554373 , (debug): vott_tracker target_path: ../../Drone_Target/for_python_path.log existed!
+2020-09-26 23:12:57.556374 , (debug): vott_tracker video_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Source/001/Drone_024.mp4
+2020-09-26 23:12:57.558374 , (debug): vott_tracker file_name: 64810295be64bcb480a47c315cfbea1c-asset.json
+2020-09-26 23:12:57.558374 , (debug): vott_tracker target_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/
+2020-09-26 23:12:57.559374 , (debug): vott_tracker json_file_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/64810295be64bcb480a47c315cfbea1c-asset.json
+2020-09-26 23:12:57.560372 , (error): <class 'read_vott_id_json.read_vott_id_json'> D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/64810295be64bcb480a47c315cfbea1c-asset.json is not existed!
+2020-09-26 23:12:57.561371 , (error): <class 'read_vott_id_json.read_vott_id_json'>  has wrong format!
+2020-09-26 23:16:18.797961 , (debug): vott_tracker target_path: ../../Drone_Target/for_python_path.log existed!
+2020-09-26 23:16:18.799963 , (debug): vott_tracker video_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Source/001/Drone_024.mp4
+2020-09-26 23:16:18.800963 , (debug): vott_tracker file_name: 64810295be64bcb480a47c315cfbea1c-asset.json
+2020-09-26 23:16:18.800963 , (debug): vott_tracker target_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/
+2020-09-26 23:16:18.801960 , (debug): vott_tracker json_file_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/64810295be64bcb480a47c315cfbea1c-asset.json
+2020-09-26 23:16:18.802961 , (error): <class 'read_vott_id_json.read_vott_id_json'> D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/64810295be64bcb480a47c315cfbea1c-asset.json is not existed!
+2020-09-26 23:16:18.803961 , (error): <class 'read_vott_id_json.read_vott_id_json'>  has wrong format!
+2020-09-26 23:19:16.491305 , (debug): vott_tracker target_path: ../../Drone_Target/for_python_path.log existed!
+2020-09-26 23:19:16.492294 , (debug): vott_tracker video_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Source/001/Drone_024.mp4
+2020-09-26 23:19:16.492294 , (debug): vott_tracker file_name: 64810295be64bcb480a47c315cfbea1c-asset.json
+2020-09-26 23:19:16.492294 , (debug): vott_tracker target_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/
+2020-09-26 23:19:16.493268 , (debug): vott_tracker json_file_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/64810295be64bcb480a47c315cfbea1c-asset.json
+2020-09-26 23:19:16.509267 , (error): <class 'read_vott_id_json.read_vott_id_json'> D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/64810295be64bcb480a47c315cfbea1c-asset.json is not existed!
+2020-09-26 23:19:16.510268 , (error): <class 'read_vott_id_json.read_vott_id_json'>  has wrong format!
+2020-09-26 23:20:51.726132 , (debug): vott_tracker target_path: ../../Drone_Target/for_python_path.log existed!
+2020-09-26 23:20:51.726132 , (debug): vott_tracker video_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Source/001/Drone_024.mp4
+2020-09-26 23:20:51.726132 , (debug): vott_tracker file_name: 64810295be64bcb480a47c315cfbea1c-asset.json
+2020-09-26 23:20:51.728131 , (debug): vott_tracker target_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/
+2020-09-26 23:20:51.732132 , (debug): vott_tracker json_file_path: D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/64810295be64bcb480a47c315cfbea1c-asset.json
+2020-09-26 23:20:51.734132 , (error): <class 'read_vott_id_json.read_vott_id_json'> D:/%E7%A0%94%E7%A9%B6%E6%89%80/Drone_Target/001/64810295be64bcb480a47c315cfbea1c-asset.json is not existed!
+2020-09-26 23:20:51.734132 , (error): <class 'read_vott_id_json.read_vott_id_json'>  has wrong format!

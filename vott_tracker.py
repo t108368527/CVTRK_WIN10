@@ -5,9 +5,9 @@ import write_vott_id_json as WVIJ
 import cv_tracker as CVTR 
 import log as PYM
 from threading import Timer
-
 ROI_get_bbox = False 
 py_name = 'vott_tracker' 
+# coding=UTF-8
 
 def fill_previous_data_to_write_json(rvij, wvij):
     
@@ -192,7 +192,7 @@ if __name__ == '__main__':
     # below(True) = exports log.txt
     pym = PYM.LOG(True)  
 
-    target_path = '../../Drone_Project/Drone_Target/for_python_path.log'
+    target_path = '../../Drone_Target/for_python_path.log'
     video_path, target_path, json_file_path = read_file_name_path(target_path)
     #if len(sys.argv[1]) > 1:
         #file_path = file_path + sys.argv[1]
